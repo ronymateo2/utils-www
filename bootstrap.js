@@ -1,5 +1,20 @@
-// A dependency graph that contains any wasm must all be imported
-// asynchronously. This `bootstrap.js` file does the single async import, so
-// that no one else needs to worry about it again.
-import("./index.js")
-  .catch(e => console.error("Error importing `index.js`:", e));
+import { send } from "./utils.facade";
+
+const form = document.getElementById("formElem");
+const resultContainer = document.getElementById("result");
+
+form.onsubmit = async (event) => {
+  event.preventDefault();
+  const issueType = document.activeElement.value;
+  let data = new FormData(formElem);
+  let name = data.get("name");
+  let issue = issueType === "Bugfix" ? "BugFix" : "Feature";
+
+  let msg = {
+    type: "dashed",
+    args: [name, issue],
+  };
+
+  const { value } = await send(msg);
+  resultContainer.innerText = value;
+};
