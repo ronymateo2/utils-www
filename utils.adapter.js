@@ -2,6 +2,8 @@ import { Utils, Issue } from "utils";
 
 const utils = Utils.new();
 
+//TODO: generate code instead of switch
+
 const dashed = (name, issue) => {
   return utils.dashed(name, Issue[issue]);
 };
